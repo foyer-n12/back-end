@@ -1,10 +1,14 @@
 'use strict';
-// prepare the express app
+
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
-// app.level.mw
+const routes = require('./router');
+const errorHandler = require('./middleware/error');
+const notFound = require('./middleware/404');
+
+
 const app = express();
 app.use(cors());
 app.use(morgan('dev'));
@@ -12,9 +16,12 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-// if server is already running
+app.use(routes);
+app.use(notFound);
+app.use(errorHandler);
+
 let isRunning = false;
-app.listen(3000, ()=> console.log('port is running'));
+
 module.exports = {
   server: app,
   start: (port) => {
@@ -28,4 +35,3 @@ module.exports = {
     }
   },
 };
-

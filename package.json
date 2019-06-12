@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "main.js",
   "scripts": {
-    "start": "node app.js",
-    "watch": "nodemon app.js",
+    "start": "node main.js",
+    "watch": "nodemon main.js",
     "test-watch": "jest --watchAll",
     "test": "jest --coverage",
     "dbOn": "mkdir -p ./db && mongod --dbpath ./db",
