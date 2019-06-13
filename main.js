@@ -9,6 +9,7 @@ const options = {
   useCreateIndex: true,
 };
 
+console.log('DB::::', process.env.MONGODB_URI);
 // Creates new connection to mongoose
 mongoose.connect(process.env.MONGODB_URI, options);
 
