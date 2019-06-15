@@ -1,6 +1,5 @@
 'use strict';
 
-
 const options = {
   useNewUrlParser: true,
   useCreateIndex: true,
