@@ -11,7 +11,8 @@ require('dotenv').config();
 const user = new mongoose.Schema({
   username: {type:String, required:true, unique:true},
   password: {type:String, required:true},
-    email: {type: String}
+    email: {type: String},
+    favorites: {type: String}
 });
 
 // Hashes given password
@@ -30,12 +31,16 @@ user.pre('save', function(next) {
 
 user.statics.authenticateBasic = function(auth) {
   let query = {username:auth.username};
+  console.log(auth);
   return this.findOne(query)
-      .then(user => user && user.comparePassword(auth.password))
-      .catch(console.error);
-};
+      .then((user) => {
+        // console.log(user);
+        
+        return user && user.comparePassword(auth.password, auth.favorites)
+      })
+      .catch (() => console.log('---------------'))
 
-
+}
 // This function compares the password with what's in the schema
 // uses bcrypt to compare the this.password with what's in the Schema
 
@@ -44,11 +49,11 @@ user.methods.comparePassword = function(password) {
       .then(valid => valid ? this : null);
 };
 // Jerome - validating the email of a user
-user.statics.creatFromOauth = function(email) {
+user.statics.creatFromOauth = function(email,favorites) {
     if(!email) {
         return Promise.reject('Validation Error');
     }
-    return this.findOne({email})
+    return this.findOne({email,favorites})
         .then(user => {
             if(!user) {
                 throw new error('User Not Found');
@@ -62,9 +67,23 @@ user.statics.creatFromOauth = function(email) {
             console.log('Creating new user');
             let username = email;
             let password = 'none';
-            return this.create({username, password, email});
+            let favorites = 'none';
+            return this.create({username, password, email, favorites});
         });
 };
+
+// Jerome - Creating a favorites tab
+// authRouter.get('favorite', User.getAddFavorite);
+
+user.methods.compareFavorites = function(favorite) {
+  console.log(favorite)
+  let favorites = {
+  
+    favorites: this._favorite,
+  }
+
+  return this.save({favorites});
+}
 
 // Function that generates a token and assigns it to an _id in the Schema
 // uses jsonwebtoken to sign the tokenData and salts it with our .env file's SECRET

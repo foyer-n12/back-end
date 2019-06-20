@@ -33,6 +33,8 @@ module.exports = (req, res, next) => {
     if(user) {
       req.user = user;
       req.token = user.generateToken();
+    console.log(user);
+
       next();
     }
     else {
