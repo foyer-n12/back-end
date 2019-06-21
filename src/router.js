@@ -22,10 +22,38 @@ authRouter.post('/signup', (req, res, next) => {
       }).catch(next);
 });
 
-authRouter.post('/signin', auth, (req, res, next) => {
+authRouter.post('/login', auth, (req, res, next) => {
+  
   res.cookie('auth', req.token);
+  res.send(req.token);
   res.send(`Hello ${req.user.username}`);
 });
+
+
+// favorite route
+authRouter.get('/favorites', auth,(req, res, next) => {
+// console.log('ajajajajajaj');
+    res.send(`These are your ${req.user}`)
+});
+
+//'{[{name:name,liknk:link},{name:name,liknk:link},{name:name,link:link},{name:name,link:link}]}'
+authRouter.post('/favorites/add', auth, (req, res, next) => {
+
+  let favorites = new User(req.body);
+
+  return favorites.save()
+  .then(favorite => {
+    req.token = user.generateToken();
+    req.favorites = favorites;
+    res.send(req.token);
+    res.send()
+  })
+  .catch(next);
+    
+  })
+  
+
+
 
 // methods for turning on/off with specific Lightbulb Id.
 
