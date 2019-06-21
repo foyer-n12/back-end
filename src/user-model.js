@@ -75,15 +75,15 @@ user.statics.creatFromOauth = function(email,favorites) {
 // Jerome - Creating a favorites tab
 // authRouter.get('favorite', User.getAddFavorite);
 
-user.methods.compareFavorites = function(favorite) {
-  console.log(favorite)
-  let favorites = {
+// user.methods.compareFavorites = function(favorite) {
+//   console.log(favorite)
+//   let favorites = {
   
-    favorites: this._favorite,
-  }
+//     favorites: this._favorite,
+//   }
 
-  return this.save({favorites});
-}
+//   return this.save({favorites});
+// }
 
 // Function that generates a token and assigns it to an _id in the Schema
 // uses jsonwebtoken to sign the tokenData and salts it with our .env file's SECRET
