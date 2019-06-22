@@ -15,6 +15,7 @@ const user = new mongoose.Schema({
     favorites: {type: String}
 });
 
+
 // Hashes given password
 user.pre('save', function(next) {
   bcrypt.hash(this.password,10)
